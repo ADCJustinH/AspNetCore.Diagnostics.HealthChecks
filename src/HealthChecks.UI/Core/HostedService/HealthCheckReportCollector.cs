@@ -63,7 +63,7 @@ namespace HealthChecks.UI.Core.HostedService
                     }
 
                     var healthReport = await GetHealthReportAsync(item);
-                    
+
                     foreach (var interceptor in _interceptors)
                     {
                         await interceptor.OnCollectExecuted(healthReport);
@@ -83,7 +83,7 @@ namespace HealthChecks.UI.Core.HostedService
 
                     await SaveExecutionHistoryAsync(item, healthReport);
 
-               
+
                 }
 
                 _logger.LogDebug("HealthReportCollector has completed.");
