@@ -63,6 +63,11 @@ namespace HealthChecks.UI.Core.HostedService
                     }
 
                     var healthReport = await GetHealthReportAsync(item);
+                    
+                    foreach (var interceptor in _interceptors)
+                    {
+                        await interceptor.OnCollectExecuted(healthReport);
+                    }
 
                     if (healthReport.Status != UIHealthStatus.Healthy)
                     {
@@ -78,10 +83,7 @@ namespace HealthChecks.UI.Core.HostedService
 
                     await SaveExecutionHistoryAsync(item, healthReport);
 
-                    foreach (var interceptor in _interceptors)
-                    {
-                        await interceptor.OnCollectExecuted(healthReport);
-                    }
+               
                 }
 
                 _logger.LogDebug("HealthReportCollector has completed.");
